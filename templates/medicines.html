@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare - Medicines</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">MediCare</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/appointments">Appointments</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/medicines">Medicines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reminders">Reminders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/geolocation">Location</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Account information -->
+                <div class="account-info">
+                    <p>Logged in as: John Doe</p>
+                    <p>Account ID: 123456</p>
+                </div>
+                <!-- Emergency phone numbers -->
+                <div class="phone-numbers-box">
+                    <h4>Emergency Phone Numbers</h4>
+                    <p>Emergency: 911</p>
+                    <p>Doctor: 123-456-7890</p>
+                    <p>Pharmacy: 987-654-3210</p>
+                </div>
+                <div class="emergency-button mt-4">
+                    <button id="emergencyBtn" class="btn btn-danger">Emergency</button>
+                </div>
+                <!-- Sign out button -->
+                <div class="sign-out mt-4">
+                    <a href="{{url_for('login')}}">Sign Out</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Medicine dashboard -->
+                <div class="medicine-dashboard">
+                    <h2>Medicine Dashboard</h2>
+                    <!-- Display medicine details from MongoDB -->
+                    {% for medicine in medicines %}
+                    <div class="medicine">
+                        <h3>{{ medicine.medicine_name }}</h3>
+                        <p>Start Date: {{ medicine.start_date }}</p>
+                        <p>End Date: {{ medicine.end_date }}</p>
+                        {% if medicine.morning and medicine.morning.checkbox %}
+                        <p>Morning:
+                            <br>
+                            Checkbox: {{ medicine.morning.checkbox }}
+                            <br>
+                            Timing: {{ medicine.morning.timing }}
+                            <br>
+                            Dose: {{ medicine.morning.dose }}
+                        </p>
+                        {% endif %}
+                        {% if medicine.afternoon and medicine.afternoon.checkbox %}
+                        <p>Afternoon:
+                            <br>
+                            Checkbox: {{ medicine.afternoon.checkbox }}
+                            <br>
+                            Timing: {{ medicine.afternoon.timing }}
+                            <br>
+                            Dose: {{ medicine.afternoon.dose }}
+                        </p>
+                        {% endif %}
+                        {% if medicine.night and medicine.night.checkbox %}
+                        <p>Night:
+                            <br>
+                            Checkbox: {{ medicine.night.checkbox }}
+                            <br>
+                            Timing: {{ medicine.night.timing }}
+                            <br>
+                            Dose: {{ medicine.night.dose }}
+                        </p>
+                        {% endif %}
+                        <img src="data:image/png;base64,{{ medicine.medicine_picture }}" alt="Medicine Picture" width="200">
+                    </div>
+                    {% endfor %}
+                    <!-- Add more medicine entries as needed -->
+                </div>
+                <!-- Add medicine button -->
+                <button onclick="navigateToPage('/medicine_page')" class="btn btn-primary">Navigate to Medicine Page</button>
+                <script>
+                    function navigateToPage(url) {
+                        window.location.href = url;
+                    }
+                </script>            
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

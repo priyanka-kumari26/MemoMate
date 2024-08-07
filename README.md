@@ -1,1 +1,1 @@
-# MemoMate
+Team 16 - MemoMate 

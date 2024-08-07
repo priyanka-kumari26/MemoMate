@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            color: #4c72af;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4c72af;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #4c72af;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-link a {
+            color: #4c72af;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-link {
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-link:hover {
+            background-color: #a0b7db;
+        }
+    </style>
+</head>
+<body>
+  <form method="POST" action="{{ url_for('login') }}" onsubmit="return redirectToPage()">
+      <h2>Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <label>Choose user type:</label>
+        <br>
+        <input type="radio" id="family" name="user_type" value="family" required>
+        <label for="family">Family</label>
+        <br>
+        <input type="radio" id="elders" name="user_type" value="elders" required>
+        <label for="elders">Elders</label>
+        <br>
+        <button type="submit">Login</button>
+        <div class="signup-link">
+          <button class="btn-link" onclick="redirectToSignup()">
+              Don't have an account? SignUp here.
+          </button>
+      </div>
+    </form>
+    <script>
+      function redirectToSignup() {
+          window.location.href = "{{ url_for('signup') }}";
+      }
+      function redirectToPage() {
+          var userType = document.querySelector('input[name="user_type"]:checked').value;
+          if (userType === "family") {
+              window.location.href = "{{ url_for('index') }}";
+          } else if (userType === "elders") {
+              window.location.href = "{{ url_for('index2') }}";
+          }
+          return false;  // Prevent form submission
+      }
+  </script>
+</body>
+</html>

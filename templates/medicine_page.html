@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Page - MediCare</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">MediCare</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('appointments') }}">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/medicines">Medicines</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/reminders">Reminders</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="account-info">
+                    <p>Logged in as: John Doe</p>
+                    <p>Account ID: 123456</p>
+                </div>
+                <div class="phone-numbers-box">
+                    <h4>Emergency Phone Numbers</h4>
+                    <p>Emergency: 911</p>
+                    <p>Doctor: 123-456-7890</p>
+                    <p>Pharmacy: 987-654-3210</p>
+                </div>
+                <div class="sign-out mt-4">
+                    <a href="{{url_for('login')}}">Sign Out</a>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="main-content">
+                    <h1>Medicine Page</h1>
+                    
+                    <!-- Add Medicine Form -->
+                    <form id="addMedicineForm" method="POST" action="/add_medicine">
+                        <div class="form-group">
+                            <label for="medicineName">Medicine Name:</label>
+                            <input type="text" id="medicineName" name="medicineName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="medicinePicture">Upload Medicine Picture:</label>
+                            <input type="file" id="medicinePicture" name="medicinePicture" class="form-control" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" name="startDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" id="endDate" name="endDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Take Medicine:</label>
+                            <div class="form-check">
+                                <input type="checkbox" id="morningCheckbox" name="morningCheckbox" class="form-check-input">
+                                <label class="form-check-label" for="morningCheckbox">Morning</label>
+                                <div id="morningTiming" style="display: none;">
+                                    <div class="form-check">
+                                        <input type="radio" id="morningBefore" name="morningTiming" class="form-check-input" value="before">
+                                        <label class="form-check-label" for="morningBefore">Before Meal</label>
+                                        <div id="morningDose" style="display: none;">
+                                            <div class="form-check">
+                                                <p>Dose intake:</p>
+                                                <input type="radio" id="morningDose1" name="morningDose" class="form-check-input" value="1">
+                                                <label class="form-check-label" for="morningDose1">1</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="morningDose2" name="morningDose" class="form-check-input" value="2">
+                                                <label class="form-check-label" for="morningDose2">2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="morningDose3" name="morningDose" class="form-check-input" value="3">
+                                                <label class="form-check-label" for="morningDose3">3</label>
+                                            </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="morningAfter" name="morningTiming" class="form-check-input" value="after">
+                                        <label class="form-check-label" for="morningAfter">After Meal</label>
+                                        <div id="morningDose" style="display: none;">
+                                            <div class="form-check">
+                                                <p>Dose intake:</p>
+                                                <input type="radio" id="morningDose1" name="morningDose" class="form-check-input" value="1">
+                                                <label class="form-check-label" for="morningDose1">1</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="morningDose2" name="morningDose" class="form-check-input" value="2">
+                                                <label class="form-check-label" for="morningDose2">2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="morningDose3" name="morningDose" class="form-check-input" value="3">
+                                                <label class="form-check-label" for="morningDose3">3</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="afternoonCheckbox" name="afternoonCheckbox" class="form-check-input">
+                                <label class="form-check-label" for="afternoonCheckbox">Afternoon</label>
+                                <div id="afternoonTiming" style="display: none;">
+                                    <div class="form-check">
+                                        <input type="radio" id="afternoonBefore" name="afternoonTiming" class="form-check-input" value="before">
+                                        <label class="form-check-label" for="afternoonBefore">Before Meal</label>
+                                        <div id="afternoonDose" style="display: none;">
+                                            <div class="form-check">
+                                                <p>Dose intake:</p>
+                                                <input type="radio" id="afternoonDose1" name="afternoonDose" class="form-check-input" value="1">
+                                                <label class="form-check-label" for="afternoonDose1">1</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="afternoonDose2" name="afternoonDose" class="form-check-input" value="2">
+                                                <label class="form-check-label" for="afternoonDose2">2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="afternoonDose3" name="afternoonDose" class="form-check-input" value="3">
+                                                <label class="form-check-label" for="afternoonDose3">3</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="afternoonAfter" name="afternoonTiming" class="form-check-input" value="after">
+                                        <label class="form-check-label" for="afternoonAfter">After Meal</label>
+                                        <div id="afternoonDose" style="display: none;">
+                                            <div class="form-check">
+                                                <p>Dose intake:</p>
+                                                <input type="radio" id="afternoonDose1" name="afternoonDose" class="form-check-input" value="1">
+                                                <label class="form-check-label" for="afternoonDose1">1</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="afternoonDose2" name="afternoonDose" class="form-check-input" value="2">
+                                                <label class="form-check-label" for="afternoonDose2">2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="afternoonDose3" name="afternoonDose" class="form-check-input" value="3">
+                                                <label class="form-check-label" for="afternoonDose3">3</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="nightCheckbox" name="nightCheckbox" class="form-check-input">
+                                <label class="form-check-label" for="nightCheckbox">Night</label>
+                                <div id="nightTiming" style="display: none;">
+                                    <div class="form-check">
+                                        <input type="radio" id="nightBefore" name="nightTiming" class="form-check-input" value="before">
+                                        <label class="form-check-label" for="nightBefore">Before Meal</label>
+                                        <div id="nightDose" style="display: none;">
+                                            <div class="form-check">
+                                                <p>Dose intake:</p>
+                                                <input type="radio" id="nightDose1" name="nightDose" class="form-check-input" value="1">
+                                                <label class="form-check-label" for="nightDose1">1</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="nightDose2" name="nightDose" class="form-check-input" value="2">
+                                                <label class="form-check-label" for="nightDose2">2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="nightDose3" name="nightDose" class="form-check-input" value="3">
+                                                <label class="form-check-label" for="nightDose3">3</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="nightAfter" name="nightTiming" class="form-check-input" value="after">
+                                        <label class="form-check-label" for="nightAfter">After Meal</label>
+                                        <div id="nightDose" style="display: none;">
+                                            <div class="form-check">
+                                                <p>Dose intake:</p>
+                                                <input type="radio" id="nightDose1" name="nightDose" class="form-check-input" value="1">
+                                                <label class="form-check-label" for="nightDose1">1</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="nightDose2" name="nightDose" class="form-check-input" value="2">
+                                                <label class="form-check-label" for="nightDose2">2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" id="nightDose3" name="nightDose" class="form-check-input" value="3">
+                                                <label class="form-check-label" for="nightDose3">3</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Medicine</button>
+                    </form>
+
+                    <!-- Display Added Medicine Details -->
+                    <div id="medicineDetails"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show radio buttons when checkbox is checked
+        document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var timingDiv = this.parentElement.querySelector('div');
+                timingDiv.style.display = this.checked ? 'block' : 'none';
+
+                if (this.id.includes('After') || this.id.includes('Before')) {
+                    var doseDiv = this.parentElement.querySelector('#' + this.id.replace('Checkbox', 'Dose'));
+                    doseDiv.style.display = this.checked ? 'block' : 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

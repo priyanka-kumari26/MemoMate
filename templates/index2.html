@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memomate - Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 190vh;
+            overflow: auto;
+            background-color: #f8f9fa; /* Light gray background color */
+        }
+
+        .navbar {
+            background-color: #007bff; /* Dark blue navbar background color */
+        }
+
+        .info-box, .bp-sugar-tracker {
+            background-color: #ffffff; /* White background color */
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px; /* Increased border radius */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box h3, .bp-sugar-tracker h2 {
+            margin-top: 0;
+            color: #007bff; /* Blue color for section headings */
+        }
+
+        .info-box p {
+            margin-bottom: 5px;
+        }
+
+        .phone-number i {
+            margin-right: 10px;
+            color: #007bff; /* Blue color for phone icons */
+        }
+
+        .emergency-button .btn, .sign-out-btn {
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+            margin-left: 70px;
+            border-radius: 20px; /* Rounded button corners */
+        }
+
+        .sign-out-btn {
+            max-width: 150px;
+            margin-left: 90px;
+        }
+
+        .bp-sugar-tracker {
+            margin-top: 40px;
+        }
+
+        .alert-message {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Styles for BP Entries and Sugar Entries sections */
+        .entry-box {
+            background-color: #ffffff; /* White background color */
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px; /* Increased border radius */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .entry-box h2 {
+            margin-bottom: 20px;
+            color: #007bff; /* Blue color for section headings */
+            text-align: center; /* Center-align section headings */
+        }
+
+        .entry-box ul {
+            padding-left: 0; /* Remove default padding */
+            list-style-type: none; /* Remove bullet points */
+        }
+
+        .entry-box li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #dee2e6; /* Add border between list items */
+            padding-bottom: 10px; /* Add spacing between list items */
+        }
+
+        .entry-box li:last-child {
+            border-bottom: none; /* Remove border from last list item */
+            padding-bottom: 0; /* Remove extra spacing from last list item */
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='elderly6.jpg') }}');">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Memomate</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('reminders') }}"><i class="fas fa-home"></i> Reminder</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Account Info Section -->
+                <div class="info-box account-info">
+                    <div class="phone-number">
+                        <i class="fas fa-user"></i>
+                        <h3>Account Information</h3>
+                    </div>
+                    <p>Name: John Doe</p>
+                </div>
+
+                <!-- Emergency Numbers Section -->
+                <div class="info-box emergency-numbers">
+                    <h3>Emergency Numbers</h3>
+                    <div class="phone-number">
+                        <i class="fas fa-phone"></i>
+                        <p>Emergency: 911</p>
+                    </div>
+                    <div class="phone-number">
+                        <i class="fas fa-phone"></i>
+                        <p>Doctor: 123-456-7890</p>
+                    </div>
+                    <div class="phone-number">
+                        <i class="fas fa-phone"></i>
+                        <p>Pharmacy: 987-654-3210</p>
+                    </div>
+                </div>                
+
+                <div class="emergency-button mt-4">
+                    <button id="emergencyBtn" class="btn btn-danger">Emergency</button>
+                </div>
+                <div class="sign-out mt-4">
+                    <a href="{{url_for('login')}}">Sign Out</a>
+                </div>
+            </div>
+
+            <div class="col-md-8">    
+                <!-- BP Tracker Form -->
+                <div class="bp-sugar-tracker">
+                    <h2>BP Tracker</h2>
+                    <form action="{{ url_for('add_bp_entry') }}" method="post">
+                        <div class="form-group">
+                            <label for="bpDate">Date:</label>
+                            <input type="date" id="bpDate" name="bpDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bpReading">BP Reading:</label>
+                            <input type="text" id="bpReading" name="bpReading" class="form-control" placeholder="e.g., 120/80" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add BP Entry</button>
+                    </form>
+                </div>
+
+                <!-- Sugar Tracker Form -->
+                <div class="bp-sugar-tracker">
+                    <h2>Sugar Tracker</h2>
+                    <form action="{{ url_for('add_sugar_entry') }}" method="post">
+                        <div class="form-group">
+                            <label for="sugarDate">Date:</label>
+                            <input type="date" id="sugarDate" name="sugarDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sugarReading">Sugar Reading:</label>
+                            <input type="text" id="sugarReading" name="sugarReading" class="form-control" placeholder="e.g., 120 mg/dL" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Sugar Entry</button>
+                    </form>
+                </div>
+
+                <!-- BP Entries Section -->
+                <div class="col-md-12">
+                    <div class="entry-box">
+                        <h2>BP Entries</h2>
+                        <ul>
+                            {% for entry in bp_entries %}
+                                <li>
+                                    <strong>BP Date:</strong> {{ entry.date }},
+                                    <strong>BP Reading:</strong> {{ entry.bp_reading }}
+                                    {% if entry.bp_reading|int < 90 or entry.bp_reading|int > 120 %}
+                                        <span class="alert-message">Warning: BP value is abnormal!</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sugar Entries Section -->
+                <div class="col-md-12">
+                    <div class="entry-box">
+                        <h2>Sugar Entries</h2>
+                        <ul>
+                            {% for entry in sugar_entries %}
+                                <li>
+                                    <strong>Sugar Date:</strong> {{ entry.date }},
+                                    <strong>Sugar Reading:</strong> {{ entry.sugar_reading }}
+                                    {% if entry.sugar_reading|int < 70 or entry.sugar_reading|int > 140 %}
+                                        <span class="alert-message">Warning: Sugar value is abnormal!</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JavaScript for handling the emergency button click event
+        document.getElementById('emergencyBtn').addEventListener('click', function() {
+            alert('Emergency Alert! Dial 911 for immediate assistance.');
+        });
+
+        // JavaScript for handling the sign out button click event
+        document.querySelector('.sign-out-btn').addEventListener('click', function() {
+            // Perform sign out functionality here
+            alert('Signing out...');
+        });
+    </script>
+</body>
+</html>
